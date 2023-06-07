@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hourhero/constants/assets.dart';
-import 'package:hourhero/constants/color.dart';
+import 'package:hourhero/constants/styles.dart';
 import 'package:hourhero/constants/widgets.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
@@ -79,7 +79,9 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   20.heightBox,
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push('/home');
+                    },
                     child: const Text("Masuk"),
                   ).wFull(context),
                   20.heightBox,

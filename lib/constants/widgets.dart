@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hourhero/constants/color.dart';
+import 'package:hourhero/constants/styles.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class KLogo extends StatelessWidget {

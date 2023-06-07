@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hourhero/constants/assets.dart';
-import 'package:hourhero/constants/color.dart';
+import 'package:hourhero/constants/styles.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
 class SplashPage extends StatelessWidget {
