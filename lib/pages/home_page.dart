@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hourhero/constants/styles.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,14 +41,14 @@ class _HomePageState extends State<HomePage> {
             20.heightBox,
             HStack([
               for (int i = 0; i < 5; i++) ...[
-                const JobItemSquare(),
+                JobItemSquare(id: i.toString()),
                 20.widthBox,
               ],
             ]).h(280).scrollHorizontal(),
             32.heightBox,
             const Text("Lowongan Terbaru").text.bold.xl3.make(),
             for (int i = 0; i < 6; i++) ...[
-              const JobItemLandscape(),
+              JobItemLandscape(id: i.toString()),
               20.heightBox,
             ],
           ],
@@ -83,20 +84,24 @@ class _HomePageState extends State<HomePage> {
 }
 
 class JobItemSquare extends StatelessWidget {
-  const JobItemSquare({super.key});
+  const JobItemSquare({super.key, required this.id});
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push('/jobs/$id');
+        },
         child: VStack(
           [
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading:
                   "https://picsum.photos/200".circularNetworkImage(radius: 20),
-              title: const Text("Notre"),
+              title: Text("Notre $id"),
               subtitle: const Text("Tasik Malaya, INA"),
               trailing: IconButton(
                 onPressed: () {},
@@ -147,13 +152,17 @@ class JobItemSquare extends StatelessWidget {
 }
 
 class JobItemLandscape extends StatelessWidget {
-  const JobItemLandscape({super.key});
+  const JobItemLandscape({super.key, required this.id});
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push('/jobs/$id');
+        },
         child: VStack(
           [
             ListTile(
@@ -166,7 +175,7 @@ class JobItemLandscape extends StatelessWidget {
                   ))
                   .rounded
                   .make(),
-              title: const Text("Notre"),
+              title: Text("Notre $id"),
               subtitle: const Text("Tasik Malaya, INA"),
               trailing: IconButton(
                 onPressed: () {},
