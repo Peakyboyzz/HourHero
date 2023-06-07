@@ -7,10 +7,10 @@ class JobDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text("JobDetailPage"),
+          child: Text("JobDetailPage $jobId"),
         ),
       ),
     );
