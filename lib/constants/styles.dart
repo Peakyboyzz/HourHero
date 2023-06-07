@@ -30,5 +30,11 @@ final ThemeData appTheme = ThemeData(
       ),
     ),
   ),
+  cardTheme: const CardTheme(
+    color: Colors.white,
+    elevation: 0,
+    surfaceTintColor: Colors.white,
+    clipBehavior: Clip.antiAlias,
+  ),
   useMaterial3: true,
 );
