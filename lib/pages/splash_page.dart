@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hourhero/constants/assets.dart';
 import 'package:hourhero/constants/styles.dart';
+import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
+@RoutePage()
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
@@ -48,14 +50,14 @@ class SplashPage extends StatelessWidget {
                 28.heightBox,
                 ElevatedButton(
                   onPressed: () {
-                    context.push('/sign-in');
+                    context.router.push(const SignInRoute());
                   },
                   child: const Text("Masuk"),
                 ).wFull(context),
                 16.heightBox,
                 OutlinedButton(
                   onPressed: () {
-                    context.go('/sign-up');
+                    context.router.push(const SignUpRoute());
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,

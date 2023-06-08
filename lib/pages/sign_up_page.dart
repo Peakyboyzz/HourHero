@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:hourhero/constants/assets.dart';
 import 'package:hourhero/constants/styles.dart';
 import 'package:hourhero/constants/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+@RoutePage()
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 

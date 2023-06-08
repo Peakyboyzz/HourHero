@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hourhero/constants/assets.dart';
 import 'package:hourhero/constants/styles.dart';
 import 'package:hourhero/constants/widgets.dart';
+import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
+@RoutePage()
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -80,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
                   20.heightBox,
                   ElevatedButton(
                     onPressed: () {
-                      context.push('/home');
+                      context.router.push(const HomeRoute());
                     },
                     child: const Text("Masuk"),
                   ).wFull(context),
@@ -104,7 +106,7 @@ class _SignInPageState extends State<SignInPage> {
             20.heightBox,
             TextButton(
               onPressed: () {
-                context.push('/sign-up');
+                context.router.push(const SignUpRoute());
               },
               child: Text.rich(
                 TextSpan(
