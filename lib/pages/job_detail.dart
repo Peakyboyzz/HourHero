@@ -7,6 +7,9 @@ class JobDetailPage extends StatelessWidget {
 
   final String jobId;
 
+  final String deskripsi =
+      "Dapatkah Anda mewujudkan ide-ide kreatif yang berpusat pada manusia dan mewujudkan hal-hal besar yang tidak terlihat? Kami percaya pada kerja sama tim, kesenangan, proyek yang kompleks, perspektif yang beragam, dan solusi yang sederhana. Bagaimana dengan Anda? Kami mencari orang yang berpikiran sama";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,32 +105,7 @@ class JobDetailPage extends StatelessWidget {
               ).p24(),
             ),
             20.heightBox,
-            Card(
-              child: VStack(
-                [
-                  const Text("Deskripsi Pekerjaan").text.lg.bold.make(),
-                  const Text(
-                    "Dapatkah Anda mewujudkan ide-ide kreatif yang berpusat pada manusia dan mewujudkan hal-hal besar yang tidak terlihat? Kami percaya pada kerja sama tim, kesenangan, proyek yang kompleks, perspektif yang beragam, dan solusi yang sederhana. Bagaimana dengan Anda? Kami mencari orang yang berpikiran sama",
-                  ).text.justify.make(),
-                  16.heightBox,
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Text("Selengkapnya")
-                            .text
-                            .color(Color(Vx.getColorFromHex(kSecondaryColor)))
-                            .make(),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: Color(Vx.getColorFromHex(kSecondaryColor)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ).p24(),
-            ),
+            DescriptionCard(deskripsi: deskripsi),
             20.heightBox,
             Card(
               child: VStack(
@@ -147,6 +125,68 @@ class JobDetailPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class DescriptionCard extends StatefulWidget {
+  const DescriptionCard({
+    super.key,
+    required this.deskripsi,
+  });
+
+  final String deskripsi;
+
+  @override
+  State<DescriptionCard> createState() => _DescriptionCardState();
+}
+
+class _DescriptionCardState extends State<DescriptionCard> {
+  bool showAll = false;
+
+  String get descriptionText {
+    if (!showAll) {
+      final splitted = widget.deskripsi.split(",");
+      final takeCount = splitted.length > 5 ? 5 : 3;
+      return splitted.take(takeCount).toString();
+    }
+
+    return widget.deskripsi;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: VStack(
+        [
+          const Text("Deskripsi Pekerjaan").text.lg.bold.make(),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn,
+            child: Text(descriptionText).text.justify.make(),
+          ),
+          16.heightBox,
+          InkWell(
+            onTap: () {
+              setState(() {
+                showAll = !showAll;
+              });
+            },
+            child: Row(
+              children: [
+                const Text("Selengkapnya")
+                    .text
+                    .color(Color(Vx.getColorFromHex(kSecondaryColor)))
+                    .make(),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: Color(Vx.getColorFromHex(kSecondaryColor)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ).p24(),
     );
   }
 }
