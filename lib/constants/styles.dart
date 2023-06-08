@@ -4,6 +4,7 @@ import 'package:velocity_x/velocity_x.dart';
 const String kPrimaryColor = '#6D5FFD';
 const String kSecondaryColor = '#3F6CDF';
 const String kBaseColor = '#F8F8F8';
+const String kDangerColor = '#FA2525';
 
 final ThemeData appTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

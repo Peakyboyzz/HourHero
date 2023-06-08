@@ -38,12 +38,14 @@ abstract class $AppRouter extends _i10.RootStackRouter {
       );
     },
     JobDetailRoute.name: (routeData) {
-      final args = routeData.argsAs<JobDetailRouteArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<JobDetailRouteArgs>(
+          orElse: () => JobDetailRouteArgs(id: pathParams.getString('id')));
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.JobDetailPage(
           key: args.key,
-          jobId: args.jobId,
+          id: args.id,
         ),
       );
     },
@@ -119,14 +121,15 @@ class HomeRoute extends _i10.PageRouteInfo<void> {
 class JobDetailRoute extends _i10.PageRouteInfo<JobDetailRouteArgs> {
   JobDetailRoute({
     _i11.Key? key,
-    required String jobId,
+    required String id,
     List<_i10.PageRouteInfo>? children,
   }) : super(
           JobDetailRoute.name,
           args: JobDetailRouteArgs(
             key: key,
-            jobId: jobId,
+            id: id,
           ),
+          rawPathParams: {'id': id},
           initialChildren: children,
         );
 
@@ -139,16 +142,16 @@ class JobDetailRoute extends _i10.PageRouteInfo<JobDetailRouteArgs> {
 class JobDetailRouteArgs {
   const JobDetailRouteArgs({
     this.key,
-    required this.jobId,
+    required this.id,
   });
 
   final _i11.Key? key;
 
-  final String jobId;
+  final String id;
 
   @override
   String toString() {
-    return 'JobDetailRouteArgs{key: $key, jobId: $jobId}';
+    return 'JobDetailRouteArgs{key: $key, id: $id}';
   }
 }
 

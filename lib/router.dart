@@ -43,5 +43,9 @@ class AppRouter extends $AppRouter {
             ),
           ],
         ),
+        AutoRoute(
+          path: '/jobs/:id',
+          page: JobDetailRoute.page,
+        ),
       ];
 }

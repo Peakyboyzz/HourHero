@@ -5,9 +5,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage()
 class JobDetailPage extends StatelessWidget {
-  const JobDetailPage({super.key, required this.jobId});
+  const JobDetailPage({super.key, @PathParam('id') required this.id});
 
-  final String jobId;
+  final String id;
 
   final String deskripsi =
       "Dapatkah Anda mewujudkan ide-ide kreatif yang berpusat pada manusia dan mewujudkan hal-hal besar yang tidak terlihat? Kami percaya pada kerja sama tim, kesenangan, proyek yang kompleks, perspektif yang beragam, dan solusi yang sederhana. Bagaimana dengan Anda? Kami mencari orang yang berpikiran sama";
@@ -31,7 +31,7 @@ class JobDetailPage extends StatelessWidget {
                     ),
                   ]),
                   24.heightBox,
-                  Text("Barista $jobId").text.xl3.bold.make(),
+                  Text("Barista $id").text.xl3.bold.make(),
                   6.heightBox,
                   const Text("Notre").text.lg.make(),
                   6.heightBox,
@@ -163,8 +163,8 @@ class _DescriptionCardState extends State<DescriptionCard> {
         [
           const Text("Deskripsi Pekerjaan").text.lg.bold.make(),
           AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.linearToEaseOut,
             child: Text(descriptionText).text.justify.make(),
           ),
           16.heightBox,

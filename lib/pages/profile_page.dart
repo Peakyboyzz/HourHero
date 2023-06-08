@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hourhero/constants/styles.dart';
+import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage()
@@ -88,13 +89,25 @@ class ProfilePage extends StatelessWidget {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Vx.sky200),
                     foregroundColor: MaterialStateProperty.all(
-                        Color(Vx.getColorFromHex(kSecondaryColor))),
+                      Color(Vx.getColorFromHex(kSecondaryColor)),
+                    ),
                   ),
                 ),
                 onTap: () {},
               ).p16().box.white.rounded.make(),
               10.heightBox,
-            ]
+            ],
+            ElevatedButton(
+              onPressed: () {
+                context.router.replaceAll([const SignInRoute()]);
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color(Vx.getColorFromHex(kDangerColor)),
+                ),
+              ),
+              child: const Text("Logout"),
+            ),
           ],
         ),
       ),

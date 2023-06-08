@@ -13,7 +13,7 @@ class JobItemSquare extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          context.router.push(JobDetailRoute(jobId: id));
+          context.router.push(JobDetailRoute(id: id));
         },
         child: VStack(
           [
@@ -81,7 +81,7 @@ class JobItemLandscape extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          context.router.push(JobDetailRoute(jobId: id));
+          context.router.push(JobDetailRoute(id: id));
         },
         child: VStack(
           [
