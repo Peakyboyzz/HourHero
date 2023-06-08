@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>802454010288-v8qurq9rnpmn01ltnagvo2dnmo7huj9t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.802454010288-v8qurq9rnpmn01ltnagvo2dnmo7huj9t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB166ZpSkZ33W8BlXZfy_FqKDQyP1sI0GM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>802454010288</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.heroteam.hourhero</string>
+	<key>PROJECT_ID</key>
+	<string>hourhero-28f1d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hourhero-28f1d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:802454010288:ios:bc366eed9c3c9aac65fe75</string>
+</dict>
+</plist>
