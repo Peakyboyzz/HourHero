@@ -6,10 +6,6 @@ export 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 class AppRouter extends $AppRouter {
-  AppRouter(this.isAuthenticated);
-
-  final bool isAuthenticated;
-
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -27,7 +23,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           path: '/',
           initial: true,
-          guards: [AuthGuard(isAuthenticated)],
           page: HomeLayoutRoute.page,
           children: [
             RedirectRoute(path: '', redirectTo: 'home'),
@@ -54,19 +49,4 @@ class AppRouter extends $AppRouter {
           page: JobDetailRoute.page,
         ),
       ];
-}
-
-class AuthGuard extends AutoRouteGuard {
-  final bool isAuthenticated;
-
-  AuthGuard(this.isAuthenticated);
-
-  @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (isAuthenticated) {
-      resolver.next(true);
-    } else {
-      resolver.redirect(const OnboardRoute());
-    }
-  }
 }

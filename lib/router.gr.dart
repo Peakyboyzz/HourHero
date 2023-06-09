@@ -16,8 +16,8 @@ import 'package:hourhero/pages/home_page.dart' as _i3;
 import 'package:hourhero/pages/job_detail.dart' as _i4;
 import 'package:hourhero/pages/messages_page.dart' as _i5;
 import 'package:hourhero/pages/profile_page.dart' as _i6;
-import 'package:hourhero/pages/sign_up_page.dart' as _i7;
-import 'package:hourhero/pages/splash_page.dart' as _i8;
+import 'package:hourhero/sign_up/sign_up_page.dart' as _i7;
+import 'package:hourhero/pages/onboard_page.dart' as _i8;
 import 'package:hourhero/sign_in/sign_in_page.dart' as _i9;
 
 abstract class $AppRouter extends _i10.RootStackRouter {

@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hourhero/app/bloc/app_bloc.dart';
 import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -9,19 +11,26 @@ class HomeLayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: const [
-        HomeRoute(),
-        MessagesRoute(),
-        FavoriteRoute(),
-        ProfileRoute(),
-      ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return BottomBar(
-          currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
-        );
+    return BlocListener<AppBloc, AppState>(
+      listener: (context, state) {
+        if (state.status == AppStatus.unauthenticated) {
+          context.router.replaceAll(const [OnboardRoute()]);
+        }
       },
+      child: AutoTabsScaffold(
+        routes: const [
+          HomeRoute(),
+          MessagesRoute(),
+          FavoriteRoute(),
+          ProfileRoute(),
+        ],
+        bottomNavigationBuilder: (_, tabsRouter) {
+          return BottomBar(
+            currentIndex: tabsRouter.activeIndex,
+            onTap: tabsRouter.setActiveIndex,
+          );
+        },
+      ),
     );
   }
 }

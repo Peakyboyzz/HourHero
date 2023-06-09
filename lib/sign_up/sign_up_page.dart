@@ -2,27 +2,26 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:hourhero/constants/assets.dart';
 import 'package:hourhero/constants/styles.dart';
 import 'package:hourhero/constants/widgets.dart';
 import 'package:hourhero/feature/authentication/authentication.dart';
 import 'package:hourhero/router.gr.dart';
-import 'package:hourhero/sign_in/cubit/sign_in_cubit.dart';
+import 'package:hourhero/sign_up/cubit/sign_up_cubit.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
 @RoutePage()
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: BlocProvider(
-        create: (_) => SignInCubit(context.read<AuthenticationRepository>()),
+        create: (_) => SignUpCubit(context.read<AuthenticationRepository>()),
         child: Scaffold(
           body: SafeArea(
-            child: _LoginForm(),
+            child: _RegisterForm(),
           ),
         ),
       ),
@@ -30,10 +29,10 @@ class SignInPage extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignInCubit, SignInState>(
+    return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isFailure) {
           ScaffoldMessenger.of(context)
@@ -46,7 +45,14 @@ class _LoginForm extends StatelessWidget {
         }
 
         if (state.status.isSuccess) {
-          context.router.replaceAll(const [HomeLayoutRoute()]);
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                content: const Text('Success Register').text.white.make(),
+              ),
+            );
         }
       },
       child: ListView(
@@ -60,7 +66,7 @@ class _LoginForm extends StatelessWidget {
           Text.rich(
             TextSpan(
               children: [
-                const TextSpan(text: "Mulai Petualanganmu! Login ke "),
+                const TextSpan(text: "Mulai Petualanganmu! Daftar "),
                 TextSpan(
                   text: "HourHero",
                   style: TextStyle(
@@ -84,24 +90,25 @@ class _LoginForm extends StatelessWidget {
           8.heightBox,
           _PasswordInput(),
           16.heightBox,
-          _LoginButton().wFull(context),
-          TextButton(
-            onPressed: () {},
-            child: const Text("Lupa Kata Sandi?"),
-          ).wFull(context),
+          const Text("Confirm Password").text.lg.make(),
+          8.heightBox,
+          _ConfirmPasswordInput(),
           16.heightBox,
-          _GoogleLoginButton().wFull(context),
+          _RegisterButton().wFull(context),
           16.heightBox,
           TextButton(
             onPressed: () {
-              context.router.push(const SignUpRoute());
+              context.router.popAndPushAll(const [
+                OnboardRoute(),
+                SignInRoute(),
+              ]);
             },
             child: Text.rich(
               TextSpan(
                 children: [
-                  const TextSpan(text: "Belum punya akun? "),
+                  const TextSpan(text: "Sudah punya akun? "),
                   TextSpan(
-                    text: "Daftar",
+                    text: "Masuk",
                     style: TextStyle(
                       color: Color(Vx.getColorFromHex(kPrimaryColor)),
                       fontWeight: FontWeight.bold,
@@ -117,34 +124,19 @@ class _LoginForm extends StatelessWidget {
   }
 }
 
-class _GoogleLoginButton extends StatelessWidget {
+class _RegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      key: const Key('loginForm_googleLogin_raisedButton'),
-      onPressed: () => context.read<SignInCubit>().logInWithGoogle(),
-      icon: iconGoogle.circularAssetImage(
-        bgColor: Colors.transparent,
-        radius: 8,
-      ),
-      label: const Text("Login dengan Google"),
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
+    return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return state.status.isInProgress
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
-                key: const Key('loginForm_continue_raisedButton'),
+                key: const Key('registerForm_continue_raisedButton'),
                 onPressed: state.isValid
-                    ? () => context.read<SignInCubit>().logInWithCredentials()
+                    ? () => context.read<SignUpCubit>().signUpFormSubmitted()
                     : null,
-                child: const Text('LOGIN'),
+                child: const Text('DAFTAR'),
               );
       },
     );
@@ -154,12 +146,12 @@ class _LoginButton extends StatelessWidget {
 class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
+    return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return TextFormField(
-          key: const Key('loginForm_emailInput_textField'),
-          onChanged: (email) => context.read<SignInCubit>().emailChanged(email),
+          key: const Key('registerForm_emailInput_textField'),
+          onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             border: const OutlineInputBorder(
@@ -181,14 +173,15 @@ class _EmailInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInCubit, SignInState>(
+    return BlocBuilder<SignUpCubit, SignUpState>(
         buildWhen: (previous, current) => previous.password != current.password,
         builder: (context, state) {
           return TextFormField(
-            key: const Key('loginForm_passwordInput_textField'),
+            key: const Key('registerForm_passwordInput_textField'),
             onChanged: (password) =>
-                context.read<SignInCubit>().passwordChanged(password),
+                context.read<SignUpCubit>().passwordChanged(password),
             // obscureText: !state.password,
+            obscureText: true,
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -201,7 +194,7 @@ class _PasswordInput extends StatelessWidget {
                   ? 'invalid password'
                   : null,
               // suffixIcon: IconButton(
-              //   onPressed: () => context.read<SignInCubit>().togglePassword(),
+              //   onPressed: () => context.read<SignUpCubit>().togglePassword(),
               //   icon: Icon(
               //     state.passwordVisible
               //         ? Icons.visibility_off
@@ -211,5 +204,36 @@ class _PasswordInput extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class _ConfirmPasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.confirmedPassword != current.confirmedPassword,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('signUpForm_confirmedPasswordInput_textField'),
+          onChanged: (confirmPassword) => context
+              .read<SignUpCubit>()
+              .confirmedPasswordChanged(confirmPassword),
+          obscureText: true,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            labelText: 'confirm password',
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            helperText: '',
+            errorText: state.confirmedPassword.displayError != null
+                ? 'passwords do not match'
+                : null,
+          ),
+        );
+      },
+    );
   }
 }

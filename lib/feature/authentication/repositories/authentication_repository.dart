@@ -1,7 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter/foundation.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+
 import 'package:hourhero/feature/authentication/authentication.dart';
+import 'package:hourhero/feature/cache/cache.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:meta/meta.dart';
 
 class SignUpWithEmailAndPasswordFailure implements Exception {
   const SignUpWithEmailAndPasswordFailure([
@@ -120,27 +124,32 @@ class LogOutFailure implements Exception {}
 
 class AuthenticationRepository {
   AuthenticationRepository({
+    CacheClient? cache,
     firebase_auth.FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
+  })  : _cache = cache ?? CacheClient(),
+        _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
 
+  final CacheClient _cache;
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
+  @visibleForTesting
   bool isWeb = kIsWeb;
+
+  static const userCacheKey = '__user_cache_key__';
 
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
+      _cache.write(key: userCacheKey, value: user);
       return user;
     });
   }
 
-  bool get isAuthenticated => _firebaseAuth.currentUser != null;
-
   User get currentUser {
-    return User.empty;
+    return _cache.read<User>(key: userCacheKey) ?? User.empty;
   }
 
   Future<void> signUp({required String email, required String password}) async {
@@ -156,7 +165,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<void> loginWithGoogle() async {
+  Future<void> logInWithGoogle() async {
     try {
       late final firebase_auth.AuthCredential credential;
       if (isWeb) {
@@ -182,7 +191,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<void> loginWithEmailAndPassword({
+  Future<void> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {

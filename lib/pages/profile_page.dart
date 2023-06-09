@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hourhero/app/bloc/app_bloc.dart';
 import 'package:hourhero/constants/styles.dart';
-import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage()
@@ -19,6 +20,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -37,12 +39,14 @@ class ProfilePage extends StatelessWidget {
                       "https://picsum.photos/200"
                           .circularNetworkImage(radius: 38),
                       20.widthBox,
-                      VStack(
-                        [
-                          "Biboy".text.white.bold.xl3.make(),
-                          4.heightBox,
-                          "Mahasiswa".text.make(),
-                        ],
+                      Expanded(
+                        child: VStack(
+                          [
+                            (user.name ?? "").text.white.bold.xl3.make(),
+                            4.heightBox,
+                            (user.email ?? "").text.make(),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -99,7 +103,7 @@ class ProfilePage extends StatelessWidget {
             ],
             ElevatedButton(
               onPressed: () {
-                context.router.replaceAll([const SignInRoute()]);
+                context.read<AppBloc>().add(const AppLogoutRequested());
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(

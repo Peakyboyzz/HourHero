@@ -21,28 +21,21 @@ class App extends StatelessWidget {
         create: (_) => AppBloc(
           authenticationRepository: _authenticationRepository,
         ),
-        child: BlocBuilder<AppBloc, AppState>(
-            buildWhen: (previous, current) => previous.status != current.status,
-            builder: (context, state) {
-              return AppView(
-                status: state.status,
-              );
-            }),
+        child: AppView(),
       ),
     );
   }
 }
 
 class AppView extends StatelessWidget {
-  AppView({super.key, required AppStatus status})
-      : _appRouter = AppRouter(status == AppStatus.authenticated);
+  AppView({super.key});
 
-  final AppRouter _appRouter;
+  final AppRouter _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Hour Hero',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       routerConfig: _appRouter.config(),

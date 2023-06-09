@@ -1,5 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:hourhero/feature/authentication/authentication.dart';
 
 part 'sign_in_state.dart';
@@ -10,55 +11,60 @@ class SignInCubit extends Cubit<SignInState> {
   final AuthenticationRepository _authenticationRepository;
 
   void emailChanged(String value) {
-    emit(state.copyWith(email: value));
+    final email = Email.dirty(value);
+    emit(
+      state.copyWith(
+        email: email,
+        isValid: Formz.validate([email, state.password]),
+      ),
+    );
   }
 
   void passwordChanged(String value) {
-    emit(state.copyWith(password: value));
+    final password = Password.dirty(value);
+    emit(
+      state.copyWith(
+        password: password,
+        isValid: Formz.validate([state.email, password]),
+      ),
+    );
   }
 
-  void togglePassword() {
-    emit(state.copyWith(passwordVisible: !state.passwordVisible));
-  }
-
-  void reset() {
-    emit(state.copyWith(status: Status.idle));
-  }
-
-  Future<void> loginWithCredential() async {
-    emit(state.copyWith(status: Status.loading));
+  Future<void> logInWithCredentials() async {
+    if (!state.isValid) return;
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      await _authenticationRepository.loginWithEmailAndPassword(
-        email: state.email,
-        password: state.password,
+      await _authenticationRepository.logInWithEmailAndPassword(
+        email: state.email.value,
+        password: state.password.value,
       );
-      emit(state.copyWith(status: Status.success));
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(
         state.copyWith(
           errorMessage: e.message,
-          status: Status.failed,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (_) {
-      emit(state.copyWith(status: Status.failed));
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }
   }
 
   Future<void> logInWithGoogle() async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      await _authenticationRepository.loginWithGoogle();
-      emit(state.copyWith(status: Status.success));
+      await _authenticationRepository.logInWithGoogle();
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
     } on LogInWithGoogleFailure catch (e) {
       emit(
         state.copyWith(
           errorMessage: e.message,
-          status: Status.failed,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (_) {
-      emit(state.copyWith(status: Status.failed));
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }
   }
 }
