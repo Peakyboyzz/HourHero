@@ -16,9 +16,9 @@ import 'package:hourhero/pages/home_page.dart' as _i3;
 import 'package:hourhero/pages/job_detail.dart' as _i4;
 import 'package:hourhero/pages/messages_page.dart' as _i5;
 import 'package:hourhero/pages/profile_page.dart' as _i6;
-import 'package:hourhero/pages/sign_in_page.dart' as _i7;
-import 'package:hourhero/pages/sign_up_page.dart' as _i8;
-import 'package:hourhero/pages/splash_page.dart' as _i9;
+import 'package:hourhero/pages/sign_up_page.dart' as _i7;
+import 'package:hourhero/pages/splash_page.dart' as _i8;
+import 'package:hourhero/sign_in/sign_in_page.dart' as _i9;
 
 abstract class $AppRouter extends _i10.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -67,22 +67,22 @@ abstract class $AppRouter extends _i10.RootStackRouter {
         child: const _i6.ProfilePage(),
       );
     },
-    SignInRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i7.SignInPage(),
-      );
-    },
     SignUpRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.SignUpPage(),
+        child: const _i7.SignUpPage(),
       );
     },
     OnboardRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i9.OnboardPage(),
+        child: const _i8.OnboardPage(),
+      );
+    },
+    SignInRoute.name: (routeData) {
+      return _i10.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i9.SignInPage(),
       );
     },
   };
@@ -198,21 +198,7 @@ class ProfileRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.SignInPage]
-class SignInRoute extends _i10.PageRouteInfo<void> {
-  const SignInRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          SignInRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SignInRoute';
-
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i8.SignUpPage]
+/// [_i7.SignUpPage]
 class SignUpRoute extends _i10.PageRouteInfo<void> {
   const SignUpRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -226,7 +212,7 @@ class SignUpRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.OnboardPage]
+/// [_i8.OnboardPage]
 class OnboardRoute extends _i10.PageRouteInfo<void> {
   const OnboardRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -235,6 +221,20 @@ class OnboardRoute extends _i10.PageRouteInfo<void> {
         );
 
   static const String name = 'OnboardRoute';
+
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i9.SignInPage]
+class SignInRoute extends _i10.PageRouteInfo<void> {
+  const SignInRoute({List<_i10.PageRouteInfo>? children})
+      : super(
+          SignInRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignInRoute';
 
   static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }

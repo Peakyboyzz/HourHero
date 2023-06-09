@@ -1,23 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hourhero/constants/styles.dart';
-import 'package:hourhero/router.dart';
+import 'package:hourhero/feature/authentication/authentication.dart';
+import 'package:hourhero/firebase_options.dart';
 
-void main() {
-  runApp(App());
-}
+import 'app/app.dart';
 
-class App extends StatelessWidget {
-  App({super.key});
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  final _appRouter = AppRouter();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final authenticationRepository = AuthenticationRepository();
+  await authenticationRepository.user.first;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: appTheme,
-      routerConfig: _appRouter.config(),
-    );
-  }
+  runApp(App(
+    authenticationRepository: authenticationRepository,
+  ));
 }
