@@ -15,6 +15,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool isPasswordVisible = false;
 
   void togglePassword() {
@@ -25,95 +28,24 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 32,
-          ),
-          children: [
-            const KLogo(),
-            80.heightBox,
-            Text.rich(
-              TextSpan(
-                children: [
-                  const TextSpan(text: "Mulai Petualanganmu! Login ke "),
-                  TextSpan(
-                    text: "HourHero",
-                    style: TextStyle(
-                      color: Color(Vx.getColorFromHex(kPrimaryColor)),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              style: const TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.w400,
-              ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 36,
+              vertical: 24,
             ),
-            40.heightBox,
-            Form(
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Email"),
-                    ),
-                  ),
-                  20.heightBox,
-                  TextFormField(
-                    obscureText: !isPasswordVisible,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      label: const Text("Password"),
-                      suffixIcon: IconButton(
-                        onPressed: togglePassword,
-                        icon: Icon(
-                          isPasswordVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                      ),
-                    ),
-                  ),
-                  20.heightBox,
-                  ElevatedButton(
-                    onPressed: () {
-                      context.router.push(const HomeRoute());
-                    },
-                    child: const Text("Masuk"),
-                  ).wFull(context),
-                  20.heightBox,
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text("Lupa Kata Sandi?"),
-                  ),
-                ],
-              ),
-            ),
-            40.heightBox,
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: iconGoogle.circularAssetImage(
-                bgColor: Colors.transparent,
-                radius: 8,
-              ),
-              label: const Text("Login dengan Google"),
-            ).wFull(context),
-            20.heightBox,
-            TextButton(
-              onPressed: () {
-                context.router.push(const SignUpRoute());
-              },
-              child: Text.rich(
+            children: [
+              const KLogo(),
+              80.heightBox,
+              Text.rich(
                 TextSpan(
                   children: [
-                    const TextSpan(text: "Belum punya akun? "),
+                    const TextSpan(text: "Mulai Petualanganmu! Login ke "),
                     TextSpan(
-                      text: "Daftar",
+                      text: "HourHero",
                       style: TextStyle(
                         color: Color(Vx.getColorFromHex(kPrimaryColor)),
                         fontWeight: FontWeight.bold,
@@ -121,9 +53,97 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ],
                 ),
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-            ).wFull(context),
-          ],
+              40.heightBox,
+              Form(
+                key: _formKey,
+                child: VStack(
+                  [
+                    const Text("Email").text.lg.make(),
+                    8.heightBox,
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        label: Text("Email"),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        isDense: true,
+                      ),
+                    ),
+                    20.heightBox,
+                    const Text("Password").text.lg.make(),
+                    8.heightBox,
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: !isPasswordVisible,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        label: const Text("Password"),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        isDense: true,
+                        suffixIcon: IconButton(
+                          onPressed: togglePassword,
+                          icon: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
+                      ),
+                    ),
+                    20.heightBox,
+                    ElevatedButton(
+                      onPressed: () {
+                        context.router.push(const HomeRoute());
+                      },
+                      child: const Text("Masuk"),
+                    ).wFull(context),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text("Lupa Kata Sandi?"),
+                    ).wFull(context),
+                  ],
+                ),
+              ),
+              20.heightBox,
+              OutlinedButton.icon(
+                onPressed: () {},
+                icon: iconGoogle.circularAssetImage(
+                  bgColor: Colors.transparent,
+                  radius: 8,
+                ),
+                label: const Text("Login dengan Google"),
+              ).wFull(context),
+              20.heightBox,
+              TextButton(
+                onPressed: () {
+                  context.router.push(const SignUpRoute());
+                },
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      const TextSpan(text: "Belum punya akun? "),
+                      TextSpan(
+                        text: "Daftar",
+                        style: TextStyle(
+                          color: Color(Vx.getColorFromHex(kPrimaryColor)),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ).wFull(context),
+            ],
+          ),
         ),
       ),
     );

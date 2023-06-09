@@ -6,8 +6,8 @@ import 'package:hourhero/router.gr.dart';
 import 'package:velocity_x/velocity_x.dart' hide VxContextExtensions;
 
 @RoutePage()
-class SplashPage extends StatelessWidget {
-  const SplashPage({super.key});
+class OnboardPage extends StatelessWidget {
+  const OnboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {

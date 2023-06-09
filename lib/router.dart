@@ -9,8 +9,9 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          path: '/splash',
-          page: SplashRoute.page,
+          initial: true,
+          path: '/',
+          page: OnboardRoute.page,
         ),
         AutoRoute(
           path: '/sign-in',
@@ -21,12 +22,12 @@ class AppRouter extends $AppRouter {
           page: SignUpRoute.page,
         ),
         AutoRoute(
-          path: '/',
+          path: '/home',
           page: HomeLayoutRoute.page,
           children: [
             RedirectRoute(path: '', redirectTo: 'home'),
             AutoRoute(
-              path: 'home',
+              path: '',
               page: HomeRoute.page,
             ),
             AutoRoute(
