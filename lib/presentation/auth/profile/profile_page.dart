@@ -27,40 +27,41 @@ class ProfilePage extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: BlocBuilder<UserProfileBloc, UserProfileState>(
-              builder: (context, state) {
-            return state.map(
-              initial: (_) {
-                return Container();
-              },
-              loadingProgress: (_) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-              loadSuccess: (e) {
-                return BlocProvider(
-                  create: (context) => getIt<UserProfileFormBloc>()
-                    ..add(UserProfileFormEvent.started(e.user)),
-                  child: ProfileWidget(
-                    user: e.user,
-                    menu: menu,
-                  ),
-                );
-              },
-              loadFailure: (e) {
-                return ListTile(
-                  tileColor: Colors.red,
-                  textColor: Colors.white,
-                  title: Text(
-                    e.appUserFailure.map(
-                      unexpected: (_) => 'Unexpected Error',
-                      insufficientPermissions: (_) => 'Permission Error',
+            builder: (context, state) {
+              return state.map(
+                initial: (_) {
+                  return Container();
+                },
+                loadingProgress: (_) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                loadSuccess: (e) {
+                  return BlocProvider(
+                    create: (context) => getIt<UserProfileFormBloc>()
+                      ..add(UserProfileFormEvent.started(e.user)),
+                    child: ProfileWidget(
+                      user: e.user,
+                      menu: menu,
                     ),
-                  ),
-                );
-              },
-            );
-          }),
+                  );
+                },
+                loadFailure: (e) {
+                  return ListTile(
+                    tileColor: Colors.red,
+                    textColor: Colors.white,
+                    title: Text(
+                      e.appUserFailure.map(
+                        unexpected: (_) => 'Unexpected Error',
+                        insufficientPermissions: (_) => 'Permission Error',
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
