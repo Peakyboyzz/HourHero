@@ -10,14 +10,8 @@ extension FirestoreX on FirebaseFirestore {
     return FirebaseFirestore.instance.collection('users').doc(user.email);
   }
 
-  CollectionReference get locationDocument =>
-      FirebaseFirestore.instance.collection('locations');
+  CollectionReference get jobsDocument =>
+      FirebaseFirestore.instance.collection('jobs');
 }
 
-extension DocumentReferenceX on DocumentReference {
-  CollectionReference get parkingSpotCollection => collection('parking_point');
-
-  CollectionReference get imagesCollection => collection('images');
-
-  CollectionReference get historiesCollection => collection('histories');
-}
+extension DocumentReferenceX on DocumentReference {}

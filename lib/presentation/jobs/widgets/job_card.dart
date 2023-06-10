@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hourhero/domain/jobs/job.dart';
 import 'package:hourhero/presentation/core/constants/styles.dart';
 import 'package:hourhero/presentation/routes/router.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class JobItemSquare extends StatelessWidget {
-  const JobItemSquare({super.key, required this.id});
+  const JobItemSquare({
+    super.key,
+    required this.job,
+  });
 
-  final String id;
+  final Job job;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
         onTap: () {
-          context.router.push(JobDetailRoute(id: id));
+          context.router.push(JobDetailRoute(id: job.id!));
         },
         child: VStack(
           [
@@ -21,25 +25,26 @@ class JobItemSquare extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading:
                   "https://picsum.photos/200".circularNetworkImage(radius: 20),
-              title: Text("Notre $id"),
-              subtitle: const Text("Tasik Malaya, INA"),
+              title: Text(job.jobName),
+              subtitle: Text(job.jobLocation),
               trailing: IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.bookmark_outline),
               ),
             ),
             20.heightBox,
-            const Text("Barista").text.xl2.make(),
+            Text(job.jobKind).text.xl2.make(),
             4.heightBox,
-            Wrap(
-              spacing: 2,
-              runSpacing: 2,
-              children: ['Junior', 'Part Time', 'Remote']
-                  .map(
-                    (e) => VxBox(child: Text('$e ')).gray200.rounded.p3.make(),
-                  )
-                  .toList(),
-            ),
+            // Wrap(
+            //   spacing: 2,
+            //   runSpacing: 2,
+            //   children: ['Junior', 'Part Time', 'Remote']
+            //       .map(
+            //         (e) => VxBox(child: Text('$e ')).gray200.rounded.p3.make(),
+            //       )
+            //       .toList(),
+            // ),
+            VxBox(child: Text(job.jobType)).gray200.rounded.p3.make(),
             20.heightBox,
             Row(
               children: [
@@ -51,14 +56,14 @@ class JobItemSquare extends StatelessWidget {
                   child: const Text("Daftar"),
                 ),
                 const Spacer(),
-                const Text.rich(
+                Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "1,5JT",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        text: job.jobSalary,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextSpan(text: "/Bulan"),
+                      const TextSpan(text: "/Bulan"),
                     ],
                   ),
                 ),
@@ -72,16 +77,16 @@ class JobItemSquare extends StatelessWidget {
 }
 
 class JobItemLandscape extends StatelessWidget {
-  const JobItemLandscape({super.key, required this.id});
+  const JobItemLandscape({super.key, required this.job});
 
-  final String id;
+  final Job job;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
         onTap: () {
-          context.router.push(JobDetailRoute(id: id));
+          context.router.push(JobDetailRoute(id: job.id!));
         },
         child: VStack(
           [
@@ -95,8 +100,8 @@ class JobItemLandscape extends StatelessWidget {
                   ))
                   .rounded
                   .make(),
-              title: Text("Notre $id"),
-              subtitle: const Text("Tasik Malaya, INA"),
+              title: Text(job.jobName),
+              subtitle: Text(job.jobLocation),
               trailing: IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.bookmark_outline),
@@ -106,22 +111,27 @@ class JobItemLandscape extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Wrap(
-                    spacing: 2,
-                    runSpacing: 2,
-                    children: ['Junior', 'Part Time', 'Remote']
-                        .map(
-                          (e) => VxBox(child: Text('$e ').text.sm.make())
-                              .gray200
-                              .rounded
-                              .p3
-                              .make(),
-                        )
-                        .toList(),
-                  ),
+                  // child: Wrap(
+                  //   spacing: 2,
+                  //   runSpacing: 2,
+                  //   children: ['Junior', 'Part Time', 'Remote']
+                  //       .map(
+                  //         (e) => VxBox(child: Text('$e ').text.sm.make())
+                  //             .gray200
+                  //             .rounded
+                  //             .p3
+                  //             .make(),
+                  //       )
+                  //       .toList(),
+                  // ),
+                  child: VxBox(child: Text(job.jobType).text.sm.make())
+                      .gray200
+                      .rounded
+                      .p3
+                      .make(),
                 ),
                 8.widthBox,
-                const Text("1,5JT/Bulan"),
+                Text(job.jobSalary),
               ],
             ),
           ],

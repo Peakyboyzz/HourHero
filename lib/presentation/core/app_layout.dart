@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hourhero/application/auth/core/auth_bloc.dart';
 import 'package:hourhero/application/auth/user_profile/user_profile_bloc.dart';
 import 'package:hourhero/injection.dart';
 import 'package:hourhero/presentation/routes/router.dart';
@@ -16,6 +17,16 @@ class AppLayoutPage extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<UserProfileBloc>()
             ..add(const UserProfileEvent.watchProfileStarted()),
+        ),
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            state.maybeMap(
+              unauthenticated: (_) {
+                context.router.replaceAll(const [LoginRoute()]);
+              },
+              orElse: () {},
+            );
+          },
         ),
       ],
       child: AutoTabsScaffold(
